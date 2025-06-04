@@ -60,24 +60,27 @@ Each exporter implements a common interface, and the correct exporter is selecte
 
 ### 🔁 How It Works
 
-1. User sends an HTTP request like `POST /export?format=pdf` with raw content.
-2. `DocumentExportController` receives the request.
-3. It asks `DocumentExporterFactory` to provide the correct `DocumentExporter` implementation.
+1. User sends an HTTP request like `POST /export?format=pdf` with raw content.  
+2. `DocumentExportController` receives the request.  
+3. It asks `DocumentExporterFactory` to provide the correct `DocumentExporter` implementation.  
 4. The exporter processes the content and returns the formatted result.
 
-### 🚀 Example API Request
+### 🚀 Example API Request & Response
 
-```http
+```
 POST /export?format=pdf
 Content-Type: text/plain
 
-Quarterly Report: Q2 Performance```
+Quarterly Report: Q2 Performance
 
-### 📥 Response:
+Response:
 [PDF Document]: Quarterly Report: Q2 Performance
+```
 
 ### 🧠 When to Use Factory Pattern
-1. When the client code needs to create objects but should not depend on their concrete classes.
-2. When object creation logic is complex or repetitive.
-3. When new object types are added frequently.
 
+```
+1. When the client code needs to create objects but should not depend on their concrete classes.  
+2. When object creation logic is complex or repetitive.  
+3. When new object types are added frequently.
+```
