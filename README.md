@@ -71,7 +71,7 @@ Each exporter implements a common interface, and the correct exporter is selecte
 POST /export?format=pdf
 Content-Type: text/plain
 
-Quarterly Report: Q2 Performance
+Quarterly Report: Q2 Performance```
 
 ### 📥 Response:
 [PDF Document]: Quarterly Report: Q2 Performance
