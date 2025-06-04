@@ -47,62 +47,66 @@ Sending Email to: kunal@example.com - HelloStrategy
 | Type         | Behavioral                                   | Creational                                 |
 | Example Use  | Payment types, discount policies             | Notification sender factory                |
 
+## 🔗 Related Patterns
+- Factory Pattern – Used to instantiate the correct strategy
+- State Pattern – Similar, but for representing object states
+- Command Pattern – Encapsulates requests with a common interface
 
-## 🧩 Factory Design Pattern
+💼 Use the Strategy pattern in your Spring Boot apps to decouple decision-making from behavior execution and make your business logic clean, testable, and extensible.
 
-The Factory Design Pattern is a creational design pattern that provides a way to encapsulate object creation logic. It allows the code to delegate the instantiation of specific types to a factory class instead of using direct `new` calls.
----
-### ✅ Problem It Solves
 
-- Decouples client code from concrete implementations.
-- Centralizes object creation logic in one place.
-- Enables easy addition of new types with minimal changes.
-- Supports the Open/Closed Principle.
----
-### 📖 Example Use Case: Document Exporter System
+# 🏭 Factory Design Pattern
 
-This project simulates an enterprise reporting system that allows exporting reports in different formats: `PDF`, `Excel`, `Word`, and `HTML`.
+## 📌 Intent
+The Factory Pattern is a creational design pattern that abstracts the process of object creation by delegating it to a factory class. It allows client code to work with interfaces or abstract types, while the factory decides which concrete implementation to return.
 
-Each exporter implements a common interface, and the correct exporter is selected at runtime using a factory based on a request parameter.
----
-### 🏗️ Components
+## ❗ Problem
+When we have multiple implementations like PdfDocumentExporter, WordDocumentExporter, and ExcelDocumentExporter, directly instantiating them using new in the controller or service leads to tight coupling and violates the Open/Closed Principle. It becomes hard to maintain and extend the codebase.
 
-| Class/Interface             | Responsibility                                             |
-|----------------------------|------------------------------------------------------------|
-| `DocumentExporter`         | Interface defining the contract for all exporters          |
-| `PdfExporter`              | Concrete class to export content in PDF format             |
-| `ExcelExporter`            | Concrete class to export content in Excel format           |
-| `WordExporter`             | Concrete class to export content in Word format            |
-| `HtmlExporter`             | Concrete class to export content in HTML format            |
-| `DocumentExporterFactory`  | Contains logic to return appropriate exporter based on input |
-| `DocumentExportController` | Spring REST controller to handle export requests           |
+## ✅ Solution
+Encapsulate the object creation logic in a Factory class (DocumentExporterFactory), which returns the appropriate exporter based on input. The controller or service uses a common interface (DocumentExporter) and delegates actual implementation details to the factory.
 
-### 🔁 How It Works
+## 💡 Analogy
+Think of an export feature on a website where users can choose to export reports in different formats like PDF, Word, or Excel. Instead of putting multiple if-else checks in the controller, we use a factory to handle that logic and return the correct exporter.
 
-1. User sends an HTTP request like `POST /export?format=pdf` with raw content.  
-2. `DocumentExportController` receives the request.  
-3. It asks `DocumentExporterFactory` to provide the correct `DocumentExporter` implementation.  
-4. The exporter processes the content and returns the formatted result.
+## 🧱 Structure
+- DocumentExporter: Common interface with export(String content) method
+- PdfDocumentExporter, WordDocumentExporter, ExcelDocumentExporter: Implementations of DocumentExporter
+- DocumentExporterFactory: Accepts a format string and returns the correct exporter
+- DocumentController: Accepts format and content, delegates to factory, and calls export()
 
-### 🚀 Example API Request & Response
+## 🚀 Example Endpoint
+GET http://localhost:8080/export?format=pdf&content=HelloFactory
 
-```
-POST /export?format=pdf
-Content-Type: text/plain
+Logs:
+Exporting PDF Document: HelloFactory
 
-Quarterly Report: Q2 Performance
+## ⚙️ Benefits
+- Eliminates need for multiple if-else or switch-case logic in controllers/services
+- Promotes Open/Closed Principle — new exporters can be added without changing existing code
+- Enhances testability — each exporter can be unit tested independently
+- Clean separation of concerns — factory handles creation, exporters handle business logic
 
-Response:
-[PDF Document]: Quarterly Report: Q2 Performance
-```
+## 🧠 Interview Tips
+- Emphasize that Factory encapsulates object creation logic
+- Point out that it reduces tight coupling and improves maintainability
+- Mention how Spring itself uses factories (e.g., BeanFactory, ApplicationContext)
+- This pattern is very useful when object instantiation depends on runtime parameters
 
-### 🧠 When to Use Factory Pattern
+## 🆚 Strategy vs Factory
+| Criteria     | Strategy Pattern                               | Factory Pattern                            |
+|--------------|------------------------------------------------|---------------------------------------------|
+| Purpose      | Choose behavior                                | Choose object type                          |
+| Focus        | Encapsulates interchangeable logic/algorithms | Encapsulates object creation                |
+| Example Use  | Discount calculation, notification strategy    | Document exporter, payment gateway provider |
 
-```
-1. When the client code needs to create objects but should not depend on their concrete classes.  
-2. When object creation logic is complex or repetitive.  
-3. When new object types are added frequently.
-```
+## 🔗 Related Patterns
+- Strategy Pattern – Each DocumentExporter implementation can also follow Strategy behavior
+- Abstract Factory – For creating related object families (e.g., themed UI widgets)
+- Singleton – Factory may return singleton exporter instances if required
+
+💼 Use the Factory Pattern in Spring Boot apps to separate object creation from business logic, especially when you have multiple interchangeable implementations selected at runtime (like export formats, parsers, payment processors, etc).
+
 
 # 🧱 Builder Design Pattern
 
@@ -199,4 +203,14 @@ Controller shows how easily we can build and send a notification using this buil
 | Boilerplate      | More                        | Less                     |
 | Readability      | High                        | High                     |
 | Use Case         | Complex logic               | Simple DTOs              |
+
+## 🔗 Related Patterns
+
+- Factory Pattern – For creating simple objects with no optional fields
+- Prototype Pattern – For cloning existing objects
+- Fluent Interface – Often combined with builder for clean chaining
+
+---
+
+💼 A must-have pattern in your Spring Boot backend toolkit, especially when designing configuration classes, request models, or messages where optional and required data need clear separation.
 
