@@ -145,8 +145,6 @@ Controller shows how easily we can build and send a notification using this buil
 ---
 
 
----
-
 ## ⚖️ Advantages
 
 | Aspect             | Benefit                                              |
@@ -182,16 +180,4 @@ Controller shows how easily we can build and send a notification using this buil
 | Boilerplate      | More                        | Less                     |
 | Readability      | High                        | High                     |
 | Use Case         | Complex logic               | Simple DTOs              |
-
----
-
-## 🔗 Related Patterns
-
-- Factory Pattern – For creating simple objects with no optional fields
-- Prototype Pattern – For cloning existing objects
-- Fluent Interface – Often combined with builder for clean chaining
-
----
-
-💼 A must-have pattern in your Spring Boot backend toolkit, especially when designing configuration classes, request models, or messages where optional and required data need clear separation.
 
