@@ -84,3 +84,114 @@ Response:
 2. When object creation logic is complex or repetitive.  
 3. When new object types are added frequently.
 ```
+
+# 🧱 Builder Design Pattern
+
+## 📌 Intent
+
+The Builder Pattern is a creational design pattern used to construct complex objects step-by-step. It is especially helpful when an object has a large number of optional parameters, and a constructor with many parameters becomes hard to read, understand, and maintain.
+
+---
+
+## ❗ Problem Statement
+
+Creating objects with multiple optional fields using constructors or setters leads to:
+
+- Confusing constructor overloads (telescoping constructors)
+- Hard-to-read code
+- Error-prone assignments (wrong order of parameters)
+
+---
+
+## ✅ Solution
+
+Builder Pattern solves this by:
+
+- Forcing required fields through constructor in the builder class
+- Allowing optional fields to be set through fluent `setter-like` methods
+- Returning the fully constructed object via a `build()` method
+
+The final object is immutable and constructed in a readable, safe, and extensible way.
+
+---
+
+## 🛠️ Real-World Analogy
+
+Imagine you're ordering a pizza:
+
+- You must choose base and size (required)
+- Toppings, cheese, and sauces are optional
+- A builder allows you to specify the essentials first, and then choose optional extras fluently
+
+---
+
+## 💡 Spring Boot Example Summary
+
+We implement a NotificationMessage object that might have many optional fields like:
+
+- CC, BCC, attachments
+- Retry policies
+- Priority, headers, etc.
+
+Using Builder, we:
+
+- Provide required fields (to, subject, body)
+- Set optional fields using method chaining
+- Keep the NotificationMessage immutable
+- Avoid a messy constructor or huge number of setters
+
+Controller shows how easily we can build and send a notification using this builder.
+
+---
+
+
+---
+
+## ⚖️ Advantages
+
+| Aspect             | Benefit                                              |
+|--------------------|------------------------------------------------------|
+| Readability        | Fluent, easy-to-understand object creation           |
+| Maintainability    | No need to modify constructor for new optional fields|
+| Immutability       | Final fields + no setters prevent accidental mutation|
+| Extensibility      | Easy to add validation or logic inside build()       |
+
+---
+
+## 🧠 Interview Tips
+
+- Explain that it separates construction from representation
+- Discuss why this is better than constructors or setter chaining
+- Compare manual builder vs Lombok @Builder
+- Mention that it helps avoid inconsistent object states
+- Be ready to show how you’d write validations in the build() method
+
+📝 Also useful when dealing with:
+
+- DTOs with optional fields
+- Query Builders (like Hibernate Criteria API)
+- Config objects (like Retrofit, OkHttp clients)
+
+---
+
+## 🆚 Manual vs Lombok @Builder
+
+| Feature         | Manual Builder             | Lombok @Builder         |
+|------------------|-----------------------------|--------------------------|
+| Control          | Full (validation, defaults) | Limited                  |
+| Boilerplate      | More                        | Less                     |
+| Readability      | High                        | High                     |
+| Use Case         | Complex logic               | Simple DTOs              |
+
+---
+
+## 🔗 Related Patterns
+
+- Factory Pattern – For creating simple objects with no optional fields
+- Prototype Pattern – For cloning existing objects
+- Fluent Interface – Often combined with builder for clean chaining
+
+---
+
+💼 A must-have pattern in your Spring Boot backend toolkit, especially when designing configuration classes, request models, or messages where optional and required data need clear separation.
+
