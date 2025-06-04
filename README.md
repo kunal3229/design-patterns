@@ -1,32 +1,51 @@
-# design-patterns
+# Design Patterns
 
-**🧩 Strategy Pattern — Behavioral Design Pattern**
-**✅ Definition**
-The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It allows the algorithm to vary independently from clients that use it.
-In simple terms: Use Strategy when you have multiple ways of doing something, and you want to switch between them easily — at runtime.
+# 🔀 Strategy Design Pattern
 
-**📦 Real-World Analogy**
-Imagine you have different ways to send a notification: via Email, SMS, or Slack. Each of these is a different strategy for delivering a message. Rather than using if-else or switch logic, you define each strategy separately and inject it as needed.
+## 📌 Intent
+The Strategy Pattern is a behavioral design pattern that enables selecting an algorithm’s behavior at runtime. It defines a family of interchangeable algorithms, encapsulates each one, and allows them to be swapped easily.
 
-**🧱 Structure**
-NotificationStrategy (interface)
-├── EmailNotificationStrategy
-├── SmsNotificationStrategy
-├── SlackNotificationStrategy
+## ❗ Problem
+Using long chains of conditionals (if-else or switch-case) to determine which algorithm or logic to execute leads to rigid and hard-to-maintain code. This violates the Open-Closed Principle and makes the code difficult to test or extend.
 
-NotificationContext (selects and uses the strategy dynamically)
-NotificationController (API layer that receives requests)
+## ✅ Solution
+The Strategy Pattern encapsulates algorithms (strategies) behind a common interface and delegates the execution to one of the concrete strategies. This allows the behavior to be changed dynamically and independently of the client using it.
 
-**💻 Implementation Summary**
-1. Each strategy (EmailNotificationStrategy, etc.) implements the NotificationStrategy interface.
-2. NotificationContext uses Spring's ApplicationContext to dynamically retrieve and use the desired strategy bean.
-3. The controller delegates the work to NotificationContext based on the channel query parameter.
+## 💡 Analogy
+Consider a notification system where messages can be sent via Email, SMS, or WhatsApp. Instead of hardcoding conditions for each, you define a NotificationStrategy interface and create separate strategy implementations for each channel. The strategy is selected based on input and used to send the message.
 
-**🔥 Benefits**
-1. Adheres to the Open/Closed Principle — you can add new strategies without modifying existing logic.
-2. Avoids messy if-else chains.
-3. Promotes cleaner, testable, and maintainable code.
-4. Strategies are easily mockable in unit tests.
+## 🧱 Structure
+- NotificationStrategy: Interface with a send(to, message) method
+- EmailNotificationStrategy, SmsNotificationStrategy, WhatsAppNotificationStrategy: Implementations of the strategy
+- NotificationService: Context class that uses the appropriate strategy
+- NotificationController: Accepts type, to, and message; delegates to NotificationService
+
+## 🚀 Example Endpoint
+Test with:
+GET http://localhost:8080/notify?type=email&to=kunal@example.com&message=HelloStrategy
+
+Logs:
+Sending Email to: kunal@example.com - HelloStrategy
+
+## ⚙️ Benefits
+- Adheres to Open-Closed Principle
+- Strategies are interchangeable and testable in isolation
+- Reduces complexity from conditional logic
+- Easy to extend with new strategies without touching existing logic
+
+## 🧠 Interview Tips
+- Use real-world examples like payment processing, routing, or discount engines
+- Demonstrate how it replaces conditionals with polymorphism
+- In Spring Boot, use @Component for strategies and @Autowired + @Qualifier for injecting them
+- Mention how Strategy and Factory patterns often complement each other
+
+## 🆚 Strategy vs Factory
+| Criteria     | Strategy Pattern                             | Factory Pattern                           |
+|--------------|----------------------------------------------|--------------------------------------------|
+| Purpose      | Choose behavior                              | Choose object type                         |
+| Focus        | Encapsulate interchangeable logic/algorithms| Encapsulate object creation                |
+| Type         | Behavioral                                   | Creational                                 |
+| Example Use  | Payment types, discount policies             | Notification sender factory                |
 
 
 ## 🧩 Factory Design Pattern
